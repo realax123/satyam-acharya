@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Coupon Popup - WordPress Plugin</title>
+    <meta name="description" content="Turn Visitors into Buyers with Beautiful WooCommerce Coupon Popups. A professional portfolio page for a WordPress plugin.">
+    
+    <!-- Google Fonts: Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons for simple, beautiful icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* --- CSS Reset & Base Styles --- */
+        :root {
+            --green: #4CAF50;
+            --blue: #2196F3;
+            --dark-blue: #1a75c2;
+            --light-bg: #f9f9f9;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background-color: var(--white);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--text-dark);
+        }
+        
+        section {
+            padding: 6rem 0;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--green);
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            padding: 10px 15px;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--blue);
+        }
+        
+        /* --- Hero Section --- */
+        .hero {
+            background-color: var(--light-bg);
+            padding-top: 120px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--blue);
+            color: var(--white);
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
+        }
+
+        .cta-button:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+
+        /* --- Features Section --- */
+        #features {
+            background-color: var(--white);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background-color: var(--light-bg);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            color: var(--green);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+        
+        /* --- Live Demo Section --- */
+        #demo {
+             background-color: var(--light-bg);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .demo-screenshot {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+        .demo-screenshot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        /* --- Installation Section --- */
+        .installation-steps {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--light-bg);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+        }
+        .installation-steps ol {
+            list-style: none;
+            counter-reset: install-counter;
+        }
+        .installation-steps li {
+            counter-increment: install-counter;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .installation-steps li::before {
+            content: counter(install-counter);
+            background: var(--green);
+            color: white;
+            font-weight: bold;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        .installation-steps p {
+            color: var(--text-light);
+        }
+        .installation-steps strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        /* --- About Section --- */
+        #about {
+            background-color: var(--white);
+        }
+        .about-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .developer-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 0 5px var(--white), 0 0 0 8px var(--green);
+        }
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .about-content .bio {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        .about-content .contact-link {
+            font-weight: 600;
+            color: var(--blue);
+            text-decoration: none;
+        }
+        
+        /* --- Footer --- */
+        .main-footer {
+            background-color: var(--text-dark);
+            color: var(--light-bg);
+            text-align: center;
+            padding: 2rem 0;
+        }
+        .main-footer a {
+            color: var(--green);
+            text-decoration: none;
+        }
+
+        /* --- Floating Buy Button --- */
+        .floating-buy-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--green);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.5);
+            z-index: 999;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .floating-buy-button:hover {
+            background-color: #45a049;
+            transform: translateY(-5px);
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            h2 { font-size: 2.2rem; }
+            .hero h1 { font-size: 3rem; }
+            .demo-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav { display: none; } /* Simple solution for mobile, can be replaced with a hamburger menu */
+            .hero h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            section { padding: 4rem 0; }
+            h2 { font-size: 2rem; margin-bottom: 3rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .installation-steps { padding: 2rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.2rem; }
+            .cta-button { padding: 12px 28px; }
+            .floating-buy-button {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 20px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Smart<span>Coupon</span></a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#demo">Demo</a></li>
+                    <li><a href="#installation">Installation</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <h1>Smart Coupon Popup</h1>
+                <p class="tagline">Turn Visitors into Buyers with Beautiful WooCommerce Coupon Popups</p>
+                <a href="#download-placeholder" class="cta-button">Download Demo</a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features">
+            <div class="container">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <div class="feature-card">
+                        <i data-feather="clock" class="feature-icon" width="48" height="48"></i>
+                        <h3>Popup Delay Control</h3>
+                        <p>Set a custom time delay for the popup to appear, grabbing attention at the perfect moment.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="feature-card">
+                        <i data-feather="tag" class="feature-icon" width="48" height="48"></i>
+                        <h3>WooCommerce Coupons</h3>
+                        <p>Automatically generate and display unique WooCommerce coupon codes for each visitor.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="feature-card">
+                        <i data-feather="mail" class="feature-icon" width="48" height="48"></i>
+                        <h3>Email Capture</h3>
+                        <p>Grow your mailing list by requiring an email address before revealing the coupon code.</p>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="feature-card">
+                        <i data-feather="gift" class="feature-icon" width="48" height="48"></i>
+                        <h3>Celebration Animation</h3>
+                        <p>Engage users with a fun confetti animation when they successfully claim a coupon.</p>
+                    </div>
+                    <!-- Feature 5 -->
+                    <div class="feature-card">
+                        <i data-feather="copy" class="feature-icon" width="48" height="48"></i>
+                        <h3>One-Click Copy</h3>
+                        <p>A convenient "Copy" button allows users to easily copy the coupon code to their clipboard.</p>
+                    </div>
+                    <!-- Feature 6 -->
+                    <div class="feature-card">
+                        <i data-feather="globe" class="feature-icon" width="48" height="48"></i>
+                        <h3>Multilingual Ready</h3>
+                        <p>Fully compatible with WPML and Polylang, making your popups ready for a global audience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Demo Section -->
+        <section id="demo">
+            <div class="container">
+                <h2>Live Demo Screenshots</h2>
+                <div class="demo-grid">
+                    <img src="https://placehold.co/600x400/2196F3/FFFFFF?text=Popup+Display" alt="Coupon Popup Screenshot 1" class="demo-screenshot">
+                    <img src="https://placehold.co/600x400/4CAF50/FFFFFF?text=Admin+Settings" alt="Admin Settings Screenshot 2" class="demo-screenshot">
+                    <img src="https://placehold.co/600x400/333333/FFFFFF?text=Confetti+Animation" alt="Confetti Animation Screenshot 3" class="demo-screenshot">
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation Guide Section -->
+        <section id="installation">
+            <div class="container">
+                <h2>Installation Guide</h2>
+                <div class="installation-steps">
+                    <ol>
+                        <li>
+                            <p><strong>Download:</strong> After purchasing, download the plugin ZIP file from your Envato account.</p>
+                        </li>
+                        <li>
+                            <p><strong>Upload:</strong> Navigate to your WordPress Dashboard, go to <strong>Plugins > Add New</strong>, and click "Upload Plugin".</p>
+                        </li>
+                        <li>
+                            <p><strong>Install & Activate:</strong> Choose the downloaded ZIP file, click "Install Now", and then "Activate Plugin".</p>
+                        </li>
+                        <li>
+                            <p><strong>Configure:</strong> Find the "Smart Coupon Popup" menu in your dashboard to customize settings and styles.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- About the Developer Section -->
+        <section id="about">
+            <div class="container">
+                <div class="about-content">
+                    <img src="https://placehold.co/150x150/333/FFF?text=Dev" alt="Developer Photo" class="developer-photo">
+                    <h3>Alex Doe</h3>
+                    <p class="bio">
+                        I'm a passionate WordPress developer with over 5 years of experience creating high-quality, user-friendly plugins. My goal is to build tools that not only work flawlessly but also help businesses grow.
+                    </p>
+                    <a href="mailto:contact@example.com" class="contact-link">contact@example.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2024 Smart Coupon Popup. All Rights Reserved. Developed by <a href="#about">Alex Doe</a>.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Buy Button -->
+    <a href="#buy-on-envato" class="floating-buy-button">Buy on Envato</a>
+
+    <script>
+        // --- Feather Icons Initialization ---
+        feather.replace();
+
+        // --- Smooth Scroll for Navigation Links ---
+        // This script provides a smooth scrolling effect when a navigation link is clicked.
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Prevent the default anchor link behavior.
+                e.preventDefault();
+                
+                // Get the target element using the href attribute.
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    // Scroll to the target element smoothly.
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
